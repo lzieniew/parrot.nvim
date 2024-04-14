@@ -1136,6 +1136,17 @@ M.chat_respond = function(params)
   -- insert last message not handled in loop
   table.insert(messages, { role = role, content = content })
 
+  -- Calculate total length of all message contents
+  local totalLength = 0
+  for _, message in ipairs(messages) do
+    totalLength = totalLength + #message.content
+  end
+  -- Display the total length of the prompt
+  vim.notify(
+    "Total prompt length in characters: " .. totalLength .. " which estimates to about " .. totalLength / 4 .. " tokens",
+    vim.log.levels.INFO
+  )
+
   -- replace first empty message with system prompt
   content = ""
   if headers.role and headers.role:match("%S") then
